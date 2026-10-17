@@ -52,6 +52,7 @@ export function convertThroughHolePadstackToPlatedHole({
   y,
   pcbPlatedHoleId,
   commonIds,
+  includeRectPadstacks = false,
 }: {
   padstack: Padstack
   x: number
@@ -62,6 +63,7 @@ export function convertThroughHolePadstackToPlatedHole({
     pcb_port_id: string
     port_hints: string[]
   }
+  includeRectPadstacks?: boolean
 }): PcbPlatedHole | null {
   if (!isThruHolePadstack(padstack)) return null
 
@@ -143,6 +145,10 @@ export function convertThroughHolePadstackToPlatedHole({
     }
   }
 
+  if (!includeRectPadstacks && padstack.hole === undefined) {
+    return null
+  }
+
   const rectDims =
     rectShape && rectShape.shapeType === "rect"
       ? {
@@ -221,6 +227,7 @@ export function convertDsnJsonHolesToPlatedHoles(
             pcb_port_id: `pcb_port_${componentId}-Pad${pin.pin_number}_${place.refdes}`,
             port_hints: [pin.pin_number.toString()],
           },
+          includeRectPadstacks: true,
         })
         if (platedHole) {
           platedHoles.push(platedHole)

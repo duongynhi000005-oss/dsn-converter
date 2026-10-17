@@ -151,6 +151,10 @@ test("convertDsnJsonHolesToPlatedHoles converts circular, oval, and rectangular 
   expect(directHoles[0].rect_pad_height).toBeCloseTo(2.0, 3)
   expect(directHoles[1].shape).toBe("circle")
 
+  dsnJson.library.padstacks[0].hole = {
+    shape: "round",
+    diameter: 800,
+  }
   const elements = convertDsnJsonToCircuitJson(dsnJson)
   const platedHoles = elements.filter(
     (e) => e.type === "pcb_plated_hole",
@@ -160,5 +164,6 @@ test("convertDsnJsonHolesToPlatedHoles converts circular, oval, and rectangular 
   expect(platedHoles[0].shape).toBe("circular_hole_with_rect_pad")
   expect(platedHoles[0].rect_pad_width).toBeCloseTo(1.6, 3)
   expect(platedHoles[0].rect_pad_height).toBeCloseTo(2.0, 3)
+  expect(platedHoles[0].hole_diameter).toBeCloseTo(0.8, 3)
   expect(platedHoles[1].shape).toBe("circle")
 })
