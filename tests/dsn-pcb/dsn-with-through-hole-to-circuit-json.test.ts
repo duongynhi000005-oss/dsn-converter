@@ -152,7 +152,7 @@ test("convertDsnJsonHolesToPlatedHoles converts circular, oval, and rectangular 
   expect(directHoles[1].shape).toBe("circle")
 
   dsnJson.library.padstacks[0].hole = {
-    shape: "round",
+    shape: "circle",
     diameter: 800,
   }
   const elements = convertDsnJsonToCircuitJson(dsnJson)
